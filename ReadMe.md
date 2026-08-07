@@ -190,11 +190,33 @@ Dynamic Link Library (DLL) — DirectX 9 (Direct3D 9) based real-time 3D engine 
 
 ## Build Configuration
 
+### Toolset
+
+| Platform Toolset | Supported | Notes |
+|------------------|-----------|-------|
+| **v143** | ✅ Yes | **Only supported toolset.** Visual Studio 2022 (MSVC v143). |
+| v142 and below | ❌ No | Not supported. |
+
+### Configurations
+
+| Configuration | Platform | Status | Notes |
+|---------------|----------|--------|-------|
+| **Shipping** | **Win32 only** | Active | Final release build. No x64 target. |
+| **Release** | Win32 | Active | Standard optimized build. |
+| **Debug** | — | **Not touched** | Configuration left as-is / not modified. Verify before use. |
+
+### Property Sheets
+
 | File | Description |
 |------|-------------|
-| `DebugSheet.props` | Property sheet — Debug. |
+| `DebugSheet.props` | Property sheet — Debug (not touched). |
 | `ReleaseSheet.props` | Property sheet — Release. |
-| `ShippingSheet.props` | Property sheet — Shipping (final). |
+| `ShippingSheet.props` | Property sheet — Shipping (Win32, final release). |
+
+### Project Files
+
+| File | Description |
+|------|-------------|
 | `io3DEngine.vcxproj` | Visual Studio project file (VC++). |
 | `io3DEngine.vcxproj.filters` | Solution Explorer filter file. |
 | `io3DEngine.vcxproj.user` | User-specific project settings (debugging, etc.). |
