@@ -64,10 +64,9 @@ void ioProgressiveMesh::BuildWorkingData()
 	CommonVertexMap kCommonVertexMap;
 	CommonVertexMap::iterator iCommonVertex;
 
-	int i = 0;
 	int iNumCommon = 0;
 
-	for( i=0 ; i<m_iVertexCount ; i++ )
+	for(int i=0 ; i<m_iVertexCount ; i++ )
 	{
 		iCommonVertex = kCommonVertexMap.find( m_pVertex[i] );
 
@@ -104,7 +103,8 @@ void ioProgressiveMesh::BuildWorkingData()
 	WORD wCurVertIndex = 0;
 
 	const WORD *pIndex = m_pIndex;
-	for( i=0 ; i<iNumTri ; i++ )
+
+	for(int i=0 ; i<iNumTri ; i++ )
 	{
 		PMFaceVertex *v0, *v1, *v2;
 
@@ -501,9 +501,8 @@ void ioProgressiveMesh::PMTriangle::SetDetails( int iIndex,
 
 void ioProgressiveMesh::PMTriangle::NotifyRemoved()
 {
-	int i=0;
 
-	for( i=0 ; i<3 ; i++ )
+	for(int i=0 ; i<3 ; i++ )
 	{
 		if( m_pVertex[i] )
 		{
@@ -511,7 +510,7 @@ void ioProgressiveMesh::PMTriangle::NotifyRemoved()
 		}
 	}
 
-	for( i=0 ; i<3 ; i++ )
+	for(int i=0 ; i<3 ; i++ )
 	{
 		int i2 = ( i+1 ) % 3;
 		if( !m_pVertex[i] || !m_pVertex[i2] )
@@ -582,15 +581,14 @@ void ioProgressiveMesh::PMTriangle::ReplaceVertex( PMFaceVertex *pOld, PMFaceVer
 	pOld->m_pCommonVertex->m_Face.erase( this );
 	pNew->m_pCommonVertex->m_Face.insert( this );
 
-	int i;
 
-	for( i=0 ; i<3 ; i++ )
+	for(int i=0 ; i<3 ; i++ )
 	{
 		pOld->m_pCommonVertex->RemoveIfNonNeighbor( m_pVertex[i]->m_pCommonVertex );
 		m_pVertex[i]->m_pCommonVertex->RemoveIfNonNeighbor( pOld->m_pCommonVertex );
 	}
 
-	for( i=0 ; i<3 ; i++ )
+	for(int i=0 ; i<3 ; i++ )
 	{
 		assert( m_pVertex[i]->m_pCommonVertex->m_Face.find(this) != m_pVertex[i]->m_pCommonVertex->m_Face.end() );
 

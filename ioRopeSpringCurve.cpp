@@ -53,10 +53,9 @@ void ioRopeSpringCurve::InitPhysics()
 
 void ioRopeSpringCurve::ExitPhysics()
 {
-	int i;
 
 	int iJointDataCount = m_JointDataList.size();
-	for( i=0 ; i<iJointDataCount ; i++ )
+	for(int i=0 ; i<iJointDataCount ; i++ )
 	{
 		JointData &rkData = m_JointDataList[i];
 
@@ -65,7 +64,7 @@ void ioRopeSpringCurve::ExitPhysics()
 	}
 	m_JointDataList.clear();
 
-	for( i = m_pWorld->getNumCollisionObjects()-1 ; i>=0 ; i-- )
+	for(int i = m_pWorld->getNumCollisionObjects()-1 ; i>=0 ; i-- )
 	{
 		btCollisionObject* obj = m_pWorld->getCollisionObjectArray()[i];
 

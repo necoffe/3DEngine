@@ -785,36 +785,34 @@ void ioFontWorkSpace::WriteLineByOutLine( int x, int y, ioTextPiece *pPiece, int
 
 	if( bBold )
 	{
-		int i = 0;
 		int iStart = -(iLineGap - 1);
 		//µ¿
-		for(i = iStart;i < iLineGap;i++)
+		for(int i = iStart;i < iLineGap;i++)
 			WriteLineBuffer( x+iLineGap+1, y+i, pPiece );
 		//¼­
-		for(i = iStart;i < iLineGap;i++)
+		for(int i = iStart;i < iLineGap;i++)
 			WriteLineBuffer( x-iLineGap, y+i, pPiece );
 		//³²
-		for(i = iStart;i < iLineGap+1;i++)
+		for(int i = iStart;i < iLineGap+1;i++)
 			WriteLineBuffer( x+i, y+iLineGap, pPiece );
 		//ºÏ
-		for(i = iStart;i < iLineGap+1;i++)
+		for(int i = iStart;i < iLineGap+1;i++)
 			WriteLineBuffer( x+i, y-iLineGap, pPiece );
 	}
 	else
 	{
-		int i = 0;
 		int iStart = -(iLineGap - 1);
 		//µ¿
-		for(i = iStart;i < iLineGap;i++)
+		for(int i = iStart;i < iLineGap;i++)
 			WriteLineBuffer( x+iLineGap, y+i, pPiece );
 		//¼­
-		for(i = iStart;i < iLineGap;i++)
+		for(int i = iStart;i < iLineGap;i++)
 			WriteLineBuffer( x-iLineGap, y+i, pPiece );
 		//³²
-		for(i = iStart;i < iLineGap;i++)
+		for(int i = iStart;i < iLineGap;i++)
 			WriteLineBuffer( x+i, y+iLineGap, pPiece );
 		//ºÏ
-		for(i = iStart;i < iLineGap;i++)
+		for(int i = iStart;i < iLineGap;i++)
 			WriteLineBuffer( x+i, y-iLineGap, pPiece );
 	}
 }

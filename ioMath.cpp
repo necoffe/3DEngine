@@ -952,9 +952,8 @@ void ioMath::ClipConvexPolygonAgainstPlane( const D3DXVECTOR3& rkNormal,
 	int iQuantity = riQuantity;
 
 	float afTest[8];
-	int i;
 
-	for( i=0 ; i<riQuantity ; i++ )
+	for(int i=0 ; i<riQuantity ; i++ )
 	{
 		afTest[i] = D3DXVec3Dot( &rkNormal, &akP[i] ) - fConstant + fabsf(fConstant) * FLT_EPSILON;
 

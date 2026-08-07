@@ -170,11 +170,10 @@ int ioDecalMaker::ClipPolygonByPlane( const ioPlane &rkPlane,
 									  const D3DXVECTOR3 *pVtx,
 									  D3DXVECTOR3 *pNewVtx )
 {
-	int i;
 	bool bNegative[10];
 
 	int iNegativeCount = 0;
-	for( i=0 ; i<iVtxCnt ; i++ )
+	for(int i=0 ; i<iVtxCnt ; i++ )
 	{
 		if( rkPlane.GetSide( pVtx[i] ) == ioPlane::NEGATIVE_SIDE )
 		{
@@ -191,7 +190,7 @@ int ioDecalMaker::ClipPolygonByPlane( const ioPlane &rkPlane,
 		return 0;
 
 	int iCount = 0;
-	for( i=0 ; i<iVtxCnt ; i++ )
+	for(int i=0 ; i<iVtxCnt ; i++ )
 	{
 		int iCurVtx;
 

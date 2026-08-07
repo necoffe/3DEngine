@@ -388,46 +388,46 @@ void ioComplexStringPrinterBase::SplitFullText( ioComplexStringPrinterBase &rkPr
     
 	if( !m_vPieceList.empty() )
 	{
-		int i = 0;
 		float fCurrentWidth = 0.0f;
 		int iSize = m_vPieceList.size();
+		int iSplitIndex = iSize;  // default
 
-		// Printer A
-		for(;i < iSize;i++)
+		// Loop 1: Printer A
+		for (int i = 0; i < iSize; i++)
 		{
 			TextPiece kPiece = m_vPieceList[i];
-			float fWidth = g_FontMgr.GetTextWidth( kPiece.szText.c_str(), kPiece.eStyle, kPiece.fScale );
-			if( fCurrentWidth +	fWidth <= fSplitWidth )
-				rkPrinterA.m_vPieceList.push_back( kPiece );
+			float fWidth = g_FontMgr.GetTextWidth(kPiece.szText.c_str(), kPiece.eStyle, kPiece.fScale);
+			if (fCurrentWidth + fWidth <= fSplitWidth)
+			{
+				rkPrinterA.m_vPieceList.push_back(kPiece);
+				fCurrentWidth += fWidth;  // moved
+			}
 			else
 			{
-				// 범위를 넘어갔으면 A와 B에 나눠서 넣어준다.
 				float fRemainWidth = fSplitWidth - fCurrentWidth;
 				char szDst[MAX_PATH], szSrc[MAX_PATH];
-				memset( szDst, 0, sizeof( szDst ) );
-				sprintf( szSrc, "%s", kPiece.szText.c_str() );
-				int iLen = StringCutFunc( kPiece.fScale, fRemainWidth, kPiece.eStyle, szDst, sizeof( szDst ), szSrc );
+				memset(szDst, 0, sizeof(szDst));
+				sprintf(szSrc, "%s", kPiece.szText.c_str());
+				int iLen = StringCutFunc(kPiece.fScale, fRemainWidth, kPiece.eStyle, szDst, sizeof(szDst), szSrc);
 				kPiece.szText = szDst;
-				kPiece.fWidth = g_FontMgr.GetTextWidth( kPiece.szText.c_str(), kPiece.eStyle, kPiece.fScale );
-				rkPrinterA.m_vPieceList.push_back( kPiece );
-				
-				// 나머지는 몽땅 두번째 줄에 추가
-				if( iLen < (int)strlen( szSrc ) )
+				kPiece.fWidth = g_FontMgr.GetTextWidth(kPiece.szText.c_str(), kPiece.eStyle, kPiece.fScale);
+				rkPrinterA.m_vPieceList.push_back(kPiece);
+
+				if (iLen < (int)strlen(szSrc))
 				{
 					kPiece.szText = &szSrc[iLen];
-					kPiece.fWidth = g_FontMgr.GetTextWidth( kPiece.szText.c_str(), kPiece.eStyle, kPiece.fScale );
-					rkPrinterB.m_vPieceList.push_back( kPiece );
+					kPiece.fWidth = g_FontMgr.GetTextWidth(kPiece.szText.c_str(), kPiece.eStyle, kPiece.fScale);
+					rkPrinterB.m_vPieceList.push_back(kPiece);
 				}
-				i++;
+				iSplitIndex = i + 1;
 				break;
 			}
-			fCurrentWidth += fWidth;
 		}
 
-		// Printer B
-		for(;i < iSize;i++)
+		// Loop 2: Printer B
+		for (int i = iSplitIndex; i < iSize; i++)
 		{
-			rkPrinterB.m_vPieceList.push_back( m_vPieceList[i] );
+			rkPrinterB.m_vPieceList.push_back(m_vPieceList[i]);
 		}
 
 		if( !rkPrinterA.IsEmpty() )

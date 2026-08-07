@@ -427,8 +427,8 @@ int StringCutFunc( float fScale, float fWidth, int iTextStyle, OUT char *szDst, 
 
 	int iBack = 0;
 	int iTemp = 0;
-	int i = 0;
-	for(;i < iLen;)
+
+	for (int i = 0; i < iLen;)
 	{
 		if( iTemp >= (MAX_PATH*2) )
 			return iBack;

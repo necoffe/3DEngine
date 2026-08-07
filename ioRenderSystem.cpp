@@ -307,8 +307,9 @@ bool ioRenderSystem::Create( HWND hWnd, UINT uWidth, UINT uHeight, bool bSwapCop
 
 	if( FAILED(hr) )
 	{
-		int i;
-		for( i=0 ; i<5 ; i++ )
+		bool bSuccess = false;
+
+		for(int i=0 ; i<5 ; i++ )
 		{
 			::SleepEx( 200, FALSE );
 
@@ -329,11 +330,12 @@ bool ioRenderSystem::Create( HWND hWnd, UINT uWidth, UINT uHeight, bool bSwapCop
 			}
 			else
 			{
+				bSuccess = true;
 				break;
 			}
 		}
 
-		if( i>= 5 )
+		if(!bSuccess)
 		{
 			LOG.PrintTimeAndLog( 0, "ioRenderSystem::Create - CreateDevice All Failed" );
 			SAFERELEASE( m_pD3D );
@@ -702,8 +704,9 @@ void ioRenderSystem::SetLightsList( const ioLightList &rkLight )
 	HRESULT hr;
 
 	int iNumLights = rkLight.size();
-	int i;
-	for( i=0 ; i<iNumLights && i<MAX_LIGHTS ; i++ )
+	int iActiveLights = min(iNumLights, MAX_LIGHTS);
+
+	for(int i=0 ; i<iNumLights && i<MAX_LIGHTS ; i++ )
 	{
 		ioLight *pLight = rkLight[i];
 
@@ -733,7 +736,7 @@ void ioRenderSystem::SetLightsList( const ioLightList &rkLight )
 		}
 	}
 
-	for( ; i<m_iUsedLights ; i++ )
+	for (int i = iActiveLights; i < m_iUsedLights; i++)
 	{
 		m_pD3DDevice->LightEnable( i, FALSE );
 		s_RenderStateDesc.m_pLights[i] = NULL;

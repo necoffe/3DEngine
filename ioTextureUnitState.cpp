@@ -114,19 +114,17 @@ ioTextureUnitState::~ioTextureUnitState()
 
 ioTextureUnitState& ioTextureUnitState::operator=( const ioTextureUnitState &rhs )
 {
-	int i;
-	for( i=0 ; i<rhs.m_iNumFrames ; i++ )
+	// Loop 1: copy
+	for (int i = 0; i < rhs.m_iNumFrames; i++)
 	{
 		m_Frames[i] = rhs.m_Frames[i];
 	}
 
-	// 내가 가진 프레임이 rhs보다 큰 경우를 대비
-	for( ; i<MAX_ANI_TEX_FRAMES ; i++ )
+	// Loop 2: clear 
+	for (int i = rhs.m_iNumFrames; i < MAX_ANI_TEX_FRAMES; i++)
 	{
-		if( !m_Frames[i].IsEmpty() )
-		{
+		if (!m_Frames[i].IsEmpty())
 			m_Frames[i].Clear();
-		}
 	}
 
 	m_iNumFrames = rhs.m_iNumFrames;

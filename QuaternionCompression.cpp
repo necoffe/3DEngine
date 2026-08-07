@@ -7,11 +7,10 @@ DWORD QComp::CompSmallThree( D3DXQUATERNION qtRot )
 {
 	D3DXQuaternionNormalize( &qtRot, &qtRot );
 
-	int i=0;
 	int iMaxIdx = 0;
 	float fMaxAmt = fabs( qtRot.x );
 
-	for( i=1 ; i<4 ; i++ )
+	for(int i=1 ; i<4 ; i++ )
 	{
 		float fCurAmt = fabs( qtRot[i]);
 
@@ -29,7 +28,7 @@ DWORD QComp::CompSmallThree( D3DXQUATERNION qtRot )
 	}
 
 	int k=0;
-	for( i=0 ; i<4 ; i++ )
+	for(int i=0 ; i<4 ; i++ )
 	{
 		if( i != iMaxIdx )
 		{

@@ -310,14 +310,13 @@ bool ioMesh::CheckSoftNormalBuffer()
 	int *pNormalCount = new int[m_iVertexCount];
 	ZeroMemory( pNormalCount, sizeof(int)*m_iVertexCount );
 
-	int i=0;
 
 	WORD wIdx0, wIdx1, wIdx2;
 	D3DXVECTOR3 vNormal, vEdge10, vEdge20;
 
 	int iIndexStart = 0;
 	int iFaceCount  = GetFaceCount();
-	for( i=0 ; i<iFaceCount ; i++ )
+	for(int i=0 ; i<iFaceCount ; i++ )
 	{
 		wIdx0 = m_pIndexBuf[ iIndexStart+0 ];
 		wIdx1 = m_pIndexBuf[ iIndexStart+1 ];
@@ -342,7 +341,7 @@ bool ioMesh::CheckSoftNormalBuffer()
 		iIndexStart += 3;
 	}
 
-	for( i=0 ; i<m_iVertexCount ; i++ )
+	for(int i=0 ; i<m_iVertexCount ; i++ )
 	{
 		pNormal[i] /= pNormalCount[i];
 		D3DXVec3Normalize( &pNormal[i], &pNormal[i] );

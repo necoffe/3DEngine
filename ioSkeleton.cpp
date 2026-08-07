@@ -62,11 +62,10 @@ void ioSkeleton::GenerateBipedList()
 {
 	ClearBipedList();
 
-	int i=0;
 	int iBipedCnt = m_pRcSkeleton->GetRcBipedCnt();
 	m_vBipedList.reserve( iBipedCnt );
 
-	for( i=0 ; i<iBipedCnt ; i++ )
+	for(int i=0 ; i<iBipedCnt ; i++ )
 	{
 		ioRcBiped* pRcBiped = m_pRcSkeleton->GetRcBiped(i);
 		if( !pRcBiped )	continue;
@@ -79,7 +78,7 @@ void ioSkeleton::GenerateBipedList()
 		}
 	}
 
-	for( i=0 ; i<iBipedCnt ; i++ )
+	for(int i=0 ; i<iBipedCnt ; i++ )
 	{
 		ioRcBiped *pRcBiped = m_pRcSkeleton->GetRcBiped(i);
 		if( !pRcBiped )	continue;
@@ -247,11 +246,13 @@ bool ioSkeleton::AddRopeSpringCurve( const ioHashString &rkBiped, const RopeSpri
 	vBipedList.push_back( pRoot );
 
 	ioBiped *pCursor = pRoot;
+
 	while( pCursor )
 	{
 		int iNumChildren = pCursor->GetNumChildren();
-		int i;
-		for( i=0 ; i<iNumChildren ; i++ )
+		bool bFound = false;
+
+		for(int i=0 ; i<iNumChildren ; i++ )
 		{
 			ioBiped *pChild = dynamic_cast<ioBiped*>( pCursor->GetChildByIndex(i) );
 			if( !pChild ) continue;
@@ -264,11 +265,12 @@ bool ioSkeleton::AddRopeSpringCurve( const ioHashString &rkBiped, const RopeSpri
 			{
 				vBipedList.push_back( pChild );
 				pCursor = pChild;
+				bFound = true;
 				break;
 			}
 		}
 
-		if( i >= iNumChildren )	// No Child
+		if(!bFound)	// No Child
 		{
 			pCursor = NULL;
 		}

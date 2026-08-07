@@ -1,5 +1,3 @@
-S
-
 #include "stdafx.h"
 
 #include "ioResource.h"
@@ -304,7 +302,6 @@ bool ioMeshManager::LoadFileInternal( ioMesh *pMesh, ioBinaryStream *pStream )
 	pStream->Read( &fSphereRadius, sizeof(float) );
 	pMesh->SetBoundRadius( fSphereRadius );
 
-	int i;
 
 	// SubMesh
 	int iSubMeshCnt;
@@ -318,7 +315,7 @@ bool ioMeshManager::LoadFileInternal( ioMesh *pMesh, ioBinaryStream *pStream )
 								pMesh->GetNumSubMesh() );
 	}
 	
-	for( i=0 ; i<iSubMeshCnt ; i++ )
+	for(int i=0 ; i<iSubMeshCnt ; i++ )
 	{
 		ioSubMesh *pSubMesh = pMesh->GetSubMesh( i );
 		if( pSubMesh )
@@ -362,7 +359,7 @@ bool ioMeshManager::LoadFileInternal( ioMesh *pMesh, ioBinaryStream *pStream )
 		vBipedNameList.reserve( iBipedIndexCnt );
 
 		char szName[MAX_PATH];
-		for( i=0 ; i<iBipedIndexCnt ; i++ )
+		for(int i=0 ; i<iBipedIndexCnt ; i++ )
 		{
 			if( pStream->ReadString( szName ) > 0 )
 			{
@@ -420,7 +417,7 @@ bool ioMeshManager::LoadFileInternal( ioMesh *pMesh, ioBinaryStream *pStream )
 
 		char szBuf[MAX_PATH];
 		D3DXVECTOR3 vPoint;
-		for( i=0 ; i<iPointCnt ; i++ )
+		for(int i=0 ; i<iPointCnt ; i++ )
 		{
 			ioMeshControlPoint *pCPoint = new ioMeshControlPoint;
 
@@ -453,12 +450,11 @@ void ioMeshManager::BuildAnimateLODMesh( ioMesh *pMesh, int &iVertexCount, int &
 	ioProgressiveMesh::LODUsageList vLODSubMeshList;
 	vLODSubMeshList.reserve( iSubMeshCount );
 
-	int i;
 	
 	int iOrgVertexStart = 0;
 	int iTotalNewIndexCount = 0;
 
-	for( i=0 ; i<iSubMeshCount ; i++ )
+	for(int i=0 ; i<iSubMeshCount ; i++ )
 	{
 		ioSubMesh *pSubMesh = pMesh->GetSubMesh( i );
 
@@ -487,7 +483,7 @@ void ioMeshManager::BuildAnimateLODMesh( ioMesh *pMesh, int &iVertexCount, int &
 	WORD wNewIndex = 0;
 	int iNewIndexCursor = 0;
 
-	for( i=0 ; i<iSubMeshCount ; i++ )
+	for(int i=0 ; i<iSubMeshCount ; i++ )
 	{
 		ioProgressiveMesh::LODUsage &rkUsage = vLODSubMeshList[i];
 

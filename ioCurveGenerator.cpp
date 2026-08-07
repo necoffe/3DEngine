@@ -123,22 +123,26 @@ D3DXVECTOR3 ioNoneUniformSpline::GetPosition( float fTime ) const
 	float fDistance = fTime * m_fMaxDistance;
 
 	int iNodeCount = m_SplineList.size() - 1;
-	int i;
-	for( i=0 ; i<iNodeCount; i++ )
+	int iFound = iNodeCount;  // default
+
+	for(int i=0 ; i<iNodeCount; i++ )
 	{
-		if( fCurDistance + m_SplineList[i].fDistance < fDistance )
+		if (fCurDistance + m_SplineList[i].fDistance < fDistance)
 		{
 			fCurDistance += m_SplineList[i].fDistance;
 		}
 		else
+		{
+			iFound = i;
 			break;
+		}
 	}
 
-	float fT = ( fDistance - fCurDistance ) / m_SplineList[i].fDistance;
-	D3DXVECTOR3 vStart = m_SplineList[i].vVelocity * m_SplineList[i].fDistance;
-	D3DXVECTOR3 vEnd = m_SplineList[i+1].vVelocity * m_SplineList[i].fDistance;
+	float fT = ( fDistance - fCurDistance ) / m_SplineList[iFound].fDistance;
+	D3DXVECTOR3 vStart = m_SplineList[iFound].vVelocity * m_SplineList[iFound].fDistance;
+	D3DXVECTOR3 vEnd = m_SplineList[iFound +1].vVelocity * m_SplineList[iFound].fDistance;
 
-	return GetPositionOnCubic( m_SplineList[i].vPos, vStart, 
-							   m_SplineList[i+1].vPos, vEnd, fT );
+	return GetPositionOnCubic( m_SplineList[iFound].vPos, vStart,
+							   m_SplineList[iFound +1].vPos, vEnd, fT );
 }
 

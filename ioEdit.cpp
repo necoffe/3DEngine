@@ -304,12 +304,11 @@ void ioEdit::OnRender()
 		char szBuffer[MAX_PATH];
 
 		int iLength = strlen(m_szText);
-		int i;
-		for( i=0; i<iLength ; i++ )
+		for( int i=0; i<iLength ; i++ )
 		{
 			szBuffer[i] = '*';
 		}
-		szBuffer[i] = '\0';
+		szBuffer[iLength] = '\0';
 
 		g_FontMgr.PrintText( xPos, yPos, m_fScale, szBuffer );
 	}
@@ -516,11 +515,11 @@ void ioEdit::SetTextSplit()
 	GetTextLeftCut( m_szText, szFirstCutText, szLeftCutText, fWidth * m_iMaxLine );
 	GetTextRightCut( szFirstCutText, szPrintText, szRightCutText, fWidth * m_iMaxLine );
 	
-	int i = 0;
 	int iCurLen = 0;
 	int iTextLen = strlen( szPrintText );
 	const char *pSrc = &szPrintText[0];
-	for(i = 0;i < m_iMaxLine - 1;i++)
+
+	for(int i = 0;i < m_iMaxLine - 1;i++)
 	{
 		if( iCurLen >= iTextLen )
 			break;
@@ -568,7 +567,7 @@ void ioEdit::SetTextSplit()
 	
 
 	m_szMultiText += szLeftCutText;
-	for (i = 0; i < (int)m_vSplitText.size() ; i++)
+	for (int i = 0; i < (int)m_vSplitText.size() ; i++)
 	{
 		ioHashString &rkSplitText = m_vSplitText[i];
 		if( rkSplitText.IsEmpty() ) continue;

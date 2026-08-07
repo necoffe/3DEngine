@@ -16,7 +16,6 @@ void ioDivisionMesh::Initialize( const Vector3Vec &vVtxList,
 								 const Vector3Vec &vNrmList,
 								 const WordVec &vIdxList )
 {
-	int i;
 	int iVtxCnt = vVtxList.size();
 	int iFaceCnt = vIdxList.size() / 3;
 
@@ -29,7 +28,7 @@ void ioDivisionMesh::Initialize( const Vector3Vec &vVtxList,
 	m_vEdgeList.reserve( iFaceCnt * 4 + 10 );
 
 	heVertex kVertex;
-	for( i=0 ; i<iVtxCnt ; i++ )
+	for(int i=0 ; i<iVtxCnt ; i++ )
 	{
 		kVertex.vPos = vVtxList[i];
 		kVertex.vNrm = vNrmList[i];
@@ -44,7 +43,7 @@ void ioDivisionMesh::Initialize( const Vector3Vec &vVtxList,
 	heEdgeIter iEdge1, iEdge2, iEdge3, iPair;
 	heVertexIter itrVtx = m_vVtxList.begin();
 	
-	for( i=0 ; i<iFaceCnt ; i++, iFaceIdx+=3 )
+	for(int i=0 ; i<iFaceCnt ; i++, iFaceIdx+=3 )
 	{
 		w1 = vIdxList[ iFaceIdx + 0 ];
 		w2 = vIdxList[ iFaceIdx + 1 ];

@@ -292,15 +292,14 @@ void ioGlowPostProcess::UpdateTexOffsetArray( int iTexWidth, int iTexHeight )
 	float fWidth  = (float)iTexWidth;
 	float fHeight = (float)iTexHeight;
 
-	int i;
-	for( i=0 ; i<3 ; i++ )
+	for(int i=0 ; i<3 ; i++ )
 	{
 		float fOffset = (float)( i - 3 );
 		m_vTexOffsetX[i].x = fOffset / fWidth;
 		m_vTexOffsetY[i].y = fOffset / fHeight;
 	}
 
-	for( i=0 ; i<3 ; i++ )
+	for(int i=0 ; i<3 ; i++ )
 	{
 		float fOffset = (float)( i + 1 );
 		m_vTexOffsetX[i+3].x = fOffset / fWidth;

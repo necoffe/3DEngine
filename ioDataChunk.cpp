@@ -177,14 +177,13 @@ void ioDataChunk::GetLine( std::string &line, bool bTrim )
 		int lSpace, rSpace;
 		lSpace = rSpace = 0;
 
-		int i=0;
-		for( i=0 ; 
+		for(int i=0 ; 
 			 i<iLen && ( line.at(i) == ' ' || line.at(i) == '\t' || line.at(i) == '\r' ) ;
 			 ++lSpace, i++ );
 
 		if( lSpace < iLen )
 		{
-			for( i= iLen-1 ; 
+			for(int i= iLen-1 ; 
 				 i>=0 && ( line.at(i) == ' ' || line.at(i) == '\t' || line.at(i) == '\r' ) ;
 				 rSpace++, i-- );
 		}

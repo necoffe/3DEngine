@@ -195,8 +195,7 @@ bool ioSound::InitSound( IDirectSound8 *pDS, ioStream *pStream, int iBufCount )
 
 	SAFEDELETE( pWaveFile );
 
-	int i;
-	for( i=1; i<iBufCount ; i++ )
+	for(int i=1; i<iBufCount ; i++ )
 	{
 		hr = pDS->DuplicateSoundBuffer( apDSBuf[0], &apDSBuf[i] );
 		if( FAILED( hr ) )
@@ -210,7 +209,7 @@ bool ioSound::InitSound( IDirectSound8 *pDS, ioStream *pStream, int iBufCount )
 		}
 	}
 
-	for( i=0 ; i<iBufCount ; i++ )
+	for(int i=0 ; i<iBufCount ; i++ )
 	{
 		AddBuffer( apDSBuf[i] );
 	}
