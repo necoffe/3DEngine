@@ -29,7 +29,9 @@
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
+      <IncludePath>$(ProjectDir)lib\DXSDK\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib\DXSDK\lib\x86;$(LibraryPath)</LibraryPath>
+</PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping_143|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
