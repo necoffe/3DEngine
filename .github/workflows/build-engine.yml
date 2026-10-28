@@ -1,0 +1,31 @@
+name: Build io3DEngine (NOVERA)
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Ambil dependency engine
+        shell: pwsh
+        run: |
+          Write-Host "cek vcxproj ada"; Test-Path io3DEngine.vcxproj
+          Write-Host "cek DevIL/IL.lib"; (Get-Item DevIL/IL.lib).Length
+      - name: Build io3DEngine Release
+        shell: pwsh
+        run: |
+          msbuild io3DEngine.vcxproj /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /m /v:minimal 2>&1 | Tee-Object build-engine.log
+      - name: Kumpulkan hasil
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Filter io3DEngine.dll | ForEach-Object { Write-Host $_.FullName $_.Length }
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          Get-ChildItem -Recurse -Filter io3DEngine.dll | ForEach-Object { Copy-Item $_.FullName out\ -Force }
+          Copy-Item build-engine.log out\ -Force -ErrorAction SilentlyContinue
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EngineBuild
+          path: out/**
+          retention-days: 14
