@@ -22,7 +22,13 @@ jobs:
           Write-Host ("sisa SubWCRev: " + (Select-String -Path io3DEngine.vcxproj -Pattern 'SubWCRev' -SimpleMatch | Measure-Object).Count)
       - name: Build io3DEngine Release
         shell: pwsh
+        env:
+          DXSDK_DIR: ${{ github.workspace }}\lib\DXSDK\
         run: |
+          $env:DXSDK_DIR = "${{ github.workspace }}\lib\DXSDK\"
+          Write-Host "DXSDK_DIR=$env:DXSDK_DIR"
+          Write-Host "cek d3dx9.h: $(Test-Path (Join-Path $env:DXSDK_DIR 'Include\d3dx9.h'))"
+          Write-Host "cek d3d9.lib: $(Test-Path (Join-Path $env:DXSDK_DIR 'lib\x86\d3d9.lib'))"
           msbuild io3DEngine.vcxproj /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v143 /m /v:minimal 2>&1 | Tee-Object build-engine.log
       - name: Kumpulkan hasil
         shell: pwsh
