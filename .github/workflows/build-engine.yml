@@ -11,21 +11,15 @@ jobs:
       - name: Siapkan Version.h + matikan step SVN (SubWCRev)
         shell: pwsh
         run: |
-          # 1) Version.h manual (isinya cuma identifier build)
-          @"
-          #pragma once
-          #define IO3DENGINE_VERSION "0.0.0.0"
-          #define IO3DENGINE_VERSION_STR "0.0.0.0"
-          "# | Set-Content -Encoding ASCII Version.h
-          Write-Host "Version.h dibuat:"; Get-Content Version.h
-          # 2) buang PreBuildEvent/CustomBuild yg jalanin SubWCRev.exe
+          $vh = '#pragma once' + "`n" + '#define IO3DENGINE_VERSION "0.0.0.0"' + "`n"
+          [System.IO.File]::WriteAllText("$PWD\Version.h", $vh)
+          Write-Host "Version.h:"; Get-Content Version.h
           $x = Get-Content io3DEngine.vcxproj -Raw
           $x = [regex]::Replace($x, '(?s)<PreBuildEvent>.*?</PreBuildEvent>', '<PreBuildEvent></PreBuildEvent>')
           $x = [regex]::Replace($x, '(?s)<CustomBuild.*?</CustomBuild>', '')
-          $x = [regex]::Replace($x, '(?s)<PropertyGroup>\s*<SubWCRev[^>]*>.*?</PropertyGroup>', '')
           $x = $x -replace '(?s)<Command>.*?SubWCRev\.exe.*?</Command>', '<Command>echo skip svn</Command>'
-          Set-Content io3DEngine.vcxproj $x -Encoding ASCII
-          Write-Host "sisa referensi SubWCRev:"; (Select-String -Path io3DEngine.vcxproj -Pattern 'SubWCRev' -SimpleMatch | Measure-Object).Count
+          Set-Content io3DEngine.vcxproj $x
+          Write-Host ("sisa SubWCRev: " + (Select-String -Path io3DEngine.vcxproj -Pattern 'SubWCRev' -SimpleMatch | Measure-Object).Count)
       - name: Build io3DEngine Release
         shell: pwsh
         run: |
