@@ -8,11 +8,24 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-      - name: Ambil dependency engine
+      - name: Siapkan Version.h + matikan step SVN (SubWCRev)
         shell: pwsh
         run: |
-          Write-Host "cek vcxproj ada"; Test-Path io3DEngine.vcxproj
-          Write-Host "cek DevIL/IL.lib"; (Get-Item DevIL/IL.lib).Length
+          # 1) Version.h manual (isinya cuma identifier build)
+          @"
+          #pragma once
+          #define IO3DENGINE_VERSION "0.0.0.0"
+          #define IO3DENGINE_VERSION_STR "0.0.0.0"
+          "# | Set-Content -Encoding ASCII Version.h
+          Write-Host "Version.h dibuat:"; Get-Content Version.h
+          # 2) buang PreBuildEvent/CustomBuild yg jalanin SubWCRev.exe
+          $x = Get-Content io3DEngine.vcxproj -Raw
+          $x = [regex]::Replace($x, '(?s)<PreBuildEvent>.*?</PreBuildEvent>', '<PreBuildEvent></PreBuildEvent>')
+          $x = [regex]::Replace($x, '(?s)<CustomBuild.*?</CustomBuild>', '')
+          $x = [regex]::Replace($x, '(?s)<PropertyGroup>\s*<SubWCRev[^>]*>.*?</PropertyGroup>', '')
+          $x = $x -replace '(?s)<Command>.*?SubWCRev\.exe.*?</Command>', '<Command>echo skip svn</Command>'
+          Set-Content io3DEngine.vcxproj $x -Encoding ASCII
+          Write-Host "sisa referensi SubWCRev:"; (Select-String -Path io3DEngine.vcxproj -Pattern 'SubWCRev' -SimpleMatch | Measure-Object).Count
       - name: Build io3DEngine Release
         shell: pwsh
         run: |
@@ -20,9 +33,9 @@ jobs:
       - name: Kumpulkan hasil
         shell: pwsh
         run: |
-          Get-ChildItem -Recurse -Filter io3DEngine.dll | ForEach-Object { Write-Host $_.FullName $_.Length }
+          Get-ChildItem -Recurse -Filter io3DEngine.dll -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName $_.Length }
           New-Item -ItemType Directory -Force -Path out | Out-Null
-          Get-ChildItem -Recurse -Filter io3DEngine.dll | ForEach-Object { Copy-Item $_.FullName out\ -Force }
+          Get-ChildItem -Recurse -Filter io3DEngine.dll -ErrorAction SilentlyContinue | ForEach-Object { Copy-Item $_.FullName out\ -Force }
           Copy-Item build-engine.log out\ -Force -ErrorAction SilentlyContinue
       - uses: actions/upload-artifact@v4
         with:
